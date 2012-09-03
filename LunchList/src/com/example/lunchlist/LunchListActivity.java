@@ -15,7 +15,7 @@ import android.widget.Spinner;
 
 public class LunchListActivity extends Activity {
 	List<Restaurant> model=new ArrayList<Restaurant>();
-	ArrayAdapter<Restaurant> adapter=null;
+	RestaurantAdapter adapter=null;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -23,9 +23,7 @@ public class LunchListActivity extends Activity {
 		Button save=(Button)findViewById(R.id.save);
 		save.setOnClickListener(onSave);
 		ListView list=(ListView)findViewById(R.id.restaurants);
-		adapter=new ArrayAdapter<Restaurant>(this,
-				android.R.layout.simple_list_item_1,
-				model);
+		adapter=new RestaurantAdapter();
 		list.setAdapter(adapter);
 	}
 	private View.OnClickListener onSave=new View.OnClickListener() {
@@ -50,4 +48,11 @@ public class LunchListActivity extends Activity {
 			adapter.add(r);
 		}
 	};
+	class RestaurantAdapter extends ArrayAdapter<Restaurant> {
+		RestaurantAdapter() {
+			super(LunchListActivity.this,
+					android.R.layout.simple_list_item_1,
+					model);
+		}
+	}
 }
