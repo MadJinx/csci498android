@@ -140,6 +140,7 @@ public class LunchListActivity extends TabActivity {
 			else {
 				types.check(R.id.delivery);
 			}
+			getTabHost().setCurrentTab(1);
 		}
 	};
 }
