@@ -25,6 +25,7 @@ public class LunchListActivity extends TabActivity {
 	EditText name=null;
 	EditText address=null;
 	RadioGroup types=null;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -123,6 +124,7 @@ public class LunchListActivity extends TabActivity {
 			}
 		}
 	}
+	
 	private AdapterView.OnItemClickListener onListClick=new
 			AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent,
