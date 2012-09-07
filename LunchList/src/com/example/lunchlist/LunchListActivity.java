@@ -9,6 +9,7 @@ import android.app.TabActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,10 +22,16 @@ import android.widget.TextView;
 public class LunchListActivity extends TabActivity {
 	List<Restaurant> model=new ArrayList<Restaurant>();
 	RestaurantAdapter adapter=null;
+	EditText name=null;
+	EditText address=null;
+	RadioGroup types=null;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lunch_list);
+		name=(EditText)findViewById(R.id.name);
+		address=(EditText)findViewById(R.id.addr);
+		types=(RadioGroup)findViewById(R.id.types);
 		Button save=(Button)findViewById(R.id.save);
 		save.setOnClickListener(onSave);
 		ListView list=(ListView)findViewById(R.id.restaurants);
@@ -41,6 +48,7 @@ public class LunchListActivity extends TabActivity {
 				.getDrawable(R.drawable.restaurant));
 		getTabHost().addTab(spec);
 		getTabHost().setCurrentTab(0);
+		list.setOnItemClickListener(onListClick);
 	}
 
 	private View.OnClickListener onSave=new View.OnClickListener() {
@@ -115,4 +123,23 @@ public class LunchListActivity extends TabActivity {
 			}
 		}
 	}
+	private AdapterView.OnItemClickListener onListClick=new
+			AdapterView.OnItemClickListener() {
+		public void onItemClick(AdapterView<?> parent,
+				View view, int position,
+				long id) {
+			Restaurant r=model.get(position);
+			name.setText(r.getName());
+			address.setText(r.getAddress());
+			if (r.getType().equals("sit_down")) {
+				types.check(R.id.sit_down);
+			}
+			else if (r.getType().equals("take_out")) {
+				types.check(R.id.take_out);
+			}
+			else {
+				types.check(R.id.delivery);
+			}
+		}
+	};
 }
