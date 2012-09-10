@@ -4,6 +4,7 @@ public class Restaurant {
 	private String name="";
 	private String address="";
 	private String type="";
+	private String notes="";
 
 	public String getName() {
 		return(name);
@@ -23,6 +24,13 @@ public class Restaurant {
 	public void setType(String type) {
 		this.type=type;
 	}
+	public String getNotes() {
+		return(notes);
+	}
+	public void setNotes(String notes) {
+		this.notes=notes;
+	}
+	
 	public String toString() {
 		return(getName());
 	}
