@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -164,12 +163,11 @@ public class LunchListActivity extends TabActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId()==R.id.toast) {
-			AlertDialog.Builder ad=new AlertDialog.Builder(this);
 			String message="No restaurant selected";
 			if (current!=null) {
 				message=current.getNotes();
 			}
-			ad.setMessage(message);
+			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 			return(true);
 		}
 		return(super.onOptionsItemSelected(item));
