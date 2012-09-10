@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.TabActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,8 +26,15 @@ public class LunchListActivity extends TabActivity {
 	RestaurantAdapter adapter=null;
 	EditText name=null;
 	EditText address=null;
+	EditText notes=null;
 	RadioGroup types=null;
-	
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		new MenuInflater(this).inflate(R.menu.option, menu);
+		return(super.onCreateOptionsMenu(menu));
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,6 +42,7 @@ public class LunchListActivity extends TabActivity {
 		name=(EditText)findViewById(R.id.name);
 		address=(EditText)findViewById(R.id.addr);
 		types=(RadioGroup)findViewById(R.id.types);
+		notes=(EditText)findViewById(R.id.notes);
 		Button save=(Button)findViewById(R.id.save);
 		save.setOnClickListener(onSave);
 		ListView list=(ListView)findViewById(R.id.restaurants);
@@ -58,8 +68,10 @@ public class LunchListActivity extends TabActivity {
 			Restaurant r=new Restaurant();
 			EditText name=(EditText)findViewById(R.id.name);
 			EditText address=(EditText)findViewById(R.id.addr);
+			EditText notes=(EditText)findViewById(R.id.notes);
 			r.setName(name.getText().toString());
 			r.setAddress(address.getText().toString());
+			r.setNotes(notes.getText().toString());
 			RadioGroup types=(RadioGroup)findViewById(R.id.types);
 
 			switch (types.getCheckedRadioButtonId()) {
@@ -124,15 +136,14 @@ public class LunchListActivity extends TabActivity {
 			}
 		}
 	}
-	
+
 	private AdapterView.OnItemClickListener onListClick=new
 			AdapterView.OnItemClickListener() {
-		public void onItemClick(AdapterView<?> parent,
-				View view, int position,
-				long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Restaurant r=model.get(position);
 			name.setText(r.getName());
 			address.setText(r.getAddress());
+			notes.setText(r.getNotes());
 			if (r.getType().equals("sit_down")) {
 				types.check(R.id.sit_down);
 			}
