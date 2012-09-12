@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.TabActivity;
@@ -13,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,6 +34,7 @@ public class LunchListActivity extends TabActivity {
 	EditText notes=null;
 	RadioGroup types=null;
 	Restaurant current=null;
+	int progress;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -42,27 +45,33 @@ public class LunchListActivity extends TabActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.activity_lunch_list);
+		
 		name=(EditText)findViewById(R.id.name);
 		address=(EditText)findViewById(R.id.addr);
 		types=(RadioGroup)findViewById(R.id.types);
 		notes=(EditText)findViewById(R.id.notes);
+		
 		Button save=(Button)findViewById(R.id.save);
 		save.setOnClickListener(onSave);
+		
 		ListView list=(ListView)findViewById(R.id.restaurants);
 		adapter=new RestaurantAdapter();
 		list.setAdapter(adapter);
+		
 		TabHost.TabSpec spec=getTabHost().newTabSpec("tag1");
 		spec.setContent(R.id.restaurants);
-		spec.setIndicator("List", getResources()
-				.getDrawable(R.drawable.list));
+		spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
 		getTabHost().addTab(spec);
+		
 		spec=getTabHost().newTabSpec("tag2");
 		spec.setContent(R.id.details);
-		spec.setIndicator("Details", getResources()
-				.getDrawable(R.drawable.restaurant));
+		spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
 		getTabHost().addTab(spec);
+		
 		getTabHost().setCurrentTab(0);
+		
 		list.setOnItemClickListener(onListClick);
 	}
 
@@ -164,14 +173,28 @@ public class LunchListActivity extends TabActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId()==R.id.toast) {
-			AlertDialog.Builder ad = new AlertDialog.Builder(this);
 			String message="No restaurant selected";
 			if (current!=null) {
 				message=current.getNotes();
 			}
-			ad.setMessage(message);
+			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 			return(true);
+		}
+		else if (item.getItemId()==R.id.run) {
+			new Thread(longTask).start();
 		}
 		return(super.onOptionsItemSelected(item));
 	}
+	
+	private void doSomeLongWork(final int incr) {
+		SystemClock.sleep(250); // should be something more useful!
+	}
+	
+	private Runnable longTask=new Runnable() {
+		public void run() {
+			for (int i=0;i<20;i++) {
+				doSomeLongWork(500);
+			}
+		}
+	};
 }
