@@ -30,6 +30,7 @@ import android.widget.Toast;
 public class LunchListActivity extends TabActivity {
 	List<Restaurant> model=new ArrayList<Restaurant>();
 	RestaurantAdapter adapter=null;
+	RestaurantHelper helper=null;
 	EditText name=null;
 	EditText address=null;
 	EditText notes=null;
@@ -46,6 +47,7 @@ public class LunchListActivity extends TabActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lunch_list);
 		
+		helper=new RestaurantHelper(this);
 		name=(EditText)findViewById(R.id.name);
 		address=(EditText)findViewById(R.id.addr);
 		types=(RadioGroup)findViewById(R.id.types);
@@ -71,6 +73,12 @@ public class LunchListActivity extends TabActivity {
 		getTabHost().setCurrentTab(0);
 		
 		list.setOnItemClickListener(onListClick);
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		helper.close();
 	}
 
 	private View.OnClickListener onSave=new View.OnClickListener() {
