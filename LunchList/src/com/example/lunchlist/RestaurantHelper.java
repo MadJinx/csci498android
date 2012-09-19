@@ -1,5 +1,6 @@
 package com.example.lunchlist;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.Cursor;
@@ -12,6 +13,15 @@ class RestaurantHelper extends SQLiteOpenHelper {
 	private static final int SCHEMA_VERSION=1;
 	public RestaurantHelper(Context context) {
 		super(context, DATABASE_NAME, null, SCHEMA_VERSION);
+	}
+	
+	public void insert(String name, String address, String type, String notes) {
+		ContentValues cv=new ContentValues();
+		cv.put("name", name);
+		cv.put("address", address);
+		cv.put("type", type);
+		cv.put("notes", notes);
+		getWritableDatabase().insert("restaurants", "name", cv);
 	}
 	
 	@Override
