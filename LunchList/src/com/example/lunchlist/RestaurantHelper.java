@@ -24,6 +24,25 @@ class RestaurantHelper extends SQLiteOpenHelper {
 		getWritableDatabase().insert("restaurants", "name", cv);
 	}
 	
+	public Cursor getAll() {
+		return(getReadableDatabase()
+				.rawQuery("SELECT _id, name, address, type, notes FROM restaurants ORDER BY name",
+						null));
+	}
+
+	public String getName(Cursor c) {
+		return(c.getString(1));
+	}
+	public String getAddress(Cursor c) {
+		return(c.getString(2));
+	}
+	public String getType(Cursor c) {
+		return(c.getString(3));
+	}
+	public String getNotes(Cursor c) {
+		return(c.getString(4));
+	}
+	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT, address TEXT, type TEXT, notes TEXT);");
