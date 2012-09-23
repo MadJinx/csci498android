@@ -59,6 +59,7 @@ public class DetailForm extends Activity {
 	private View.OnClickListener onSave=new View.OnClickListener() {
 		public void onClick(View v) {
 			String type=null;
+			
 			switch (types.getCheckedRadioButtonId()) {
 			case R.id.sit_down:
 				type="sit_down";
@@ -70,6 +71,18 @@ public class DetailForm extends Activity {
 				type="delivery";
 				break;
 			}
+			
+			if (restaurantId==null) {
+				helper.insert(name.getText().toString(),
+						address.getText().toString(), type,
+						notes.getText().toString());
+			}
+			else {
+				helper.update(restaurantId, name.getText().toString(),
+						address.getText().toString(), type,
+						notes.getText().toString());
+			}
+			finish();
 		}
 	};
 	
