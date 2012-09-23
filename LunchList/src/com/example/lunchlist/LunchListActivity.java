@@ -41,6 +41,7 @@ public class LunchListActivity extends ListActivity {
 	EditText notes=null;
 	RadioGroup types=null;
 	Restaurant current=null;
+	public final static String ID_EXTRA="com.example.lunchlist._ID";
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -110,13 +111,12 @@ public class LunchListActivity extends ListActivity {
 		}
 	}
 
-	private AdapterView.OnItemClickListener onListClick=new AdapterView.OnItemClickListener() {
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-			Intent i=new Intent(LunchListActivity.this, DetailForm.class);
-			startActivity(i);
-		}
-	};
+	@Override
+	public void onListItemClick(ListView list, View view, int position, long id) {
+		Intent i=new Intent(LunchListActivity.this, DetailForm.class);
+		i.putExtra(ID_EXTRA, String.valueOf(id));
+		startActivity(i);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
