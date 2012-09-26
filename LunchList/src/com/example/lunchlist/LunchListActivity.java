@@ -33,15 +33,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class LunchListActivity extends ListActivity {
-	Cursor model=null;
-	RestaurantAdapter adapter=null;
-	RestaurantHelper helper=null;
-	EditText name=null;
-	EditText address=null;
-	EditText notes=null;
-	RadioGroup types=null;
-	Restaurant current=null;
-	public final static String ID_EXTRA="com.example.lunchlist._ID";
+	Cursor model = null;
+	RestaurantAdapter adapter = null;
+	RestaurantHelper helper = null;
+	EditText name = null;
+	EditText address = null;
+	EditText notes = null;
+	RadioGroup types = null;
+	Restaurant current = null;
+	public final static String ID_EXTRA = "com.example.lunchlist._ID";
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_lunch_list);
+		
+		helper = new RestaurantHelper(this);
+		model = helper.getAll();
+		startManagingCursor(model);
+		adapter = new RestaurantAdapter(model);
+		setListAdapter(adapter);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,23 +63,14 @@ public class LunchListActivity extends ListActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId()==R.id.add) {
+		if (item.getItemId() == R.id.add) {
 			startActivity(new Intent(LunchListActivity.this, DetailForm.class));
+			return(true);
+		} else if (item.getItemId() == R.id.prefs) {
+			startActivity(new Intent(this, EditPreferences.class));
 			return(true);
 		}
 		return(super.onOptionsItemSelected(item));
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_lunch_list);
-		
-		helper=new RestaurantHelper(this);
-		model=helper.getAll();
-		startManagingCursor(model);
-		adapter=new RestaurantAdapter(model);
-		setListAdapter(adapter);
 	}
 	
 	@Override
@@ -83,28 +86,28 @@ public class LunchListActivity extends ListActivity {
 		@Override
 		public void bindView(View row, Context ctxt,
 				Cursor c) {
-			RestaurantHolder holder=(RestaurantHolder)row.getTag();
+			RestaurantHolder holder = (RestaurantHolder)row.getTag();
 			holder.populateFrom(c, helper);
 		}
 		@Override
 		public View newView(Context ctxt, Cursor c,
 				ViewGroup parent) {
-			LayoutInflater inflater=getLayoutInflater();
-			View row=inflater.inflate(R.layout.row, parent, false);
-			RestaurantHolder holder=new RestaurantHolder(row);
+			LayoutInflater inflater = getLayoutInflater();
+			View row = inflater.inflate(R.layout.row, parent, false);
+			RestaurantHolder holder = new RestaurantHolder(row);
 			row.setTag(holder);
 			return(row);
 		}
 	}
 
 	static class RestaurantHolder {
-		private TextView name=null;
-		private TextView address=null;
-		private ImageView icon=null;
+		private TextView name = null;
+		private TextView address = null;
+		private ImageView icon = null;
 		RestaurantHolder(View row) {
-			name=(TextView)row.findViewById(R.id.title);
-			address=(TextView)row.findViewById(R.id.address);
-			icon=(ImageView)row.findViewById(R.id.icon);
+			name = (TextView)row.findViewById(R.id.title);
+			address = (TextView)row.findViewById(R.id.address);
+			icon = (ImageView)row.findViewById(R.id.icon);
 		}
 		void populateFrom(Cursor c, RestaurantHelper helper) {
 			name.setText(helper.getName(c));
@@ -123,7 +126,7 @@ public class LunchListActivity extends ListActivity {
 
 	@Override
 	public void onListItemClick(ListView list, View view, int position, long id) {
-		Intent i=new Intent(LunchListActivity.this, DetailForm.class);
+		Intent i = new Intent(LunchListActivity.this, DetailForm.class);
 		i.putExtra(ID_EXTRA, String.valueOf(id));
 		startActivity(i);
 	}
