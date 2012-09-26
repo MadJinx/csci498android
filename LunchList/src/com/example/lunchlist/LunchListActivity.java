@@ -6,12 +6,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
@@ -41,6 +43,7 @@ public class LunchListActivity extends ListActivity {
 	EditText notes = null;
 	RadioGroup types = null;
 	Restaurant current = null;
+	SharedPreferences prefs = null;
 	public final static String ID_EXTRA = "com.example.lunchlist._ID";
 
 	@Override
@@ -48,8 +51,9 @@ public class LunchListActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lunch_list);
 		
+		prefs=PreferenceManager.getDefaultSharedPreferences(this);
 		helper = new RestaurantHelper(this);
-		model = helper.getAll();
+		model = helper.getAll(prefs.getString("sort_order", "name"));
 		startManagingCursor(model);
 		adapter = new RestaurantAdapter(model);
 		setListAdapter(adapter);
