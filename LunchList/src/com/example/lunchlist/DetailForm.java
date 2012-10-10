@@ -3,6 +3,9 @@ package com.example.lunchlist;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -24,6 +27,7 @@ public class DetailForm extends Activity {
 	TextView location = null;
 	RestaurantHelper helper = null;
 	String restaurantId = null;
+	LocationManager locMgr=null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,7 @@ public class DetailForm extends Activity {
 		types = (RadioGroup)findViewById(R.id.types);
 		feed = (EditText)findViewById(R.id.feed);
 		location = (TextView)findViewById(R.id.location);
+		locMgr=(LocationManager)getSystemService(LOCATION_SERVICE);
 		
 		restaurantId = getIntent().getStringExtra(LunchListActivity.ID_EXTRA);
 
@@ -109,14 +114,47 @@ public class DetailForm extends Activity {
 						Toast.LENGTH_LONG).show();
 			}
 			return(true);
+		} else if (item.getItemId()==R.id.location) {
+			locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+					0, 0, onLocationChange);
+					return(true);
 		}
 		return(super.onOptionsItemSelected(item));
 	}
 	
+	LocationListener onLocationChange=new LocationListener() {
+		public void onLocationChanged(Location fix) {
+			helper.updateLocation(restaurantId, fix.getLatitude(),
+					fix.getLongitude());
+			location.setText(String.valueOf(fix.getLatitude())
+					+ ", " + String.valueOf(fix.getLongitude()));
+			locMgr.removeUpdates(onLocationChange);
+			Toast.makeText(DetailForm.this, "Location saved",
+					Toast.LENGTH_LONG).show();
+		}
+		public void onProviderDisabled(String provider) {
+			
+		}
+		public void onProviderEnabled(String provider) {
+			
+		}
+		public void onStatusChanged(String provider, int status,
+				Bundle extras) {
+			
+		}
+	};
+
 	private boolean isNetworkAvailable() {
 		ConnectivityManager cm = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
 		NetworkInfo info = cm.getActiveNetworkInfo();
 		return(info != null);
+	}
+
+	@Override
+	public void onPause() {
+		save();
+		locMgr.removeUpdates(onLocationChange);
+		super.onPause();
 	}
 
 	private void save() {
@@ -149,7 +187,7 @@ public class DetailForm extends Activity {
 			}
 		}
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
