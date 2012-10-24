@@ -1,16 +1,9 @@
 package com.example.lunchlist;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-
+import com.example.lunchlist.R;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,17 +15,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
-import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class LunchListActivity extends ListActivity {
 	Cursor model = null;
@@ -49,7 +36,7 @@ public class LunchListActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_lunch_list);
+		setContentView(R.layout.lunch_list_activity);
 		
 		helper = new RestaurantHelper(this);
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -155,9 +142,11 @@ public class LunchListActivity extends ListActivity {
 	
 	@Override
 	public void onPause() {
+		super.onPause();
 	}
 	
 	@Override
 	public void onResume() {
+		super.onResume();
 	}
 }

@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -154,6 +153,7 @@ public class DetailForm extends Activity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (restaurantId==null) {
 			menu.findItem(R.id.location).setEnabled(false);
+			menu.findItem(R.id.map).setEnabled(false);
 		}
 		return(super.onPrepareOptionsMenu(menu));
 	}
