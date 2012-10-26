@@ -11,9 +11,9 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 public class RestaurantMap extends MapActivity {
-	public static final String EXTRA_LATITUDE = "apt.tutorial.EXTRA_LATITUDE";
-	public static final String EXTRA_LONGITUDE = "apt.tutorial.EXTRA_LONGITUDE";
-	public static final String EXTRA_NAME = "apt.tutorial.EXTRA_NAME";
+	public static final String EXTRA_LATITUDE = "com.example.lunchlist.EXTRA_LATITUDE";
+	public static final String EXTRA_LONGITUDE = "com.example.lunchlist.EXTRA_LONGITUDE";
+	public static final String EXTRA_NAME = "com.example.lunchlist.EXTRA_NAME";
 	private MapView map = null;
 	
 	@Override
