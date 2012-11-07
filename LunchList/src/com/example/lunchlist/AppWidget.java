@@ -1,5 +1,6 @@
 package com.example.lunchlist;
 
+import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -9,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.widget.RemoteViews;
 
+@TargetApi(11)
 public class AppWidget extends AppWidgetProvider {
 	@Override
 	public void onUpdate(Context ctxt,
@@ -22,6 +24,7 @@ public class AppWidget extends AppWidgetProvider {
 		}
 	}
 
+	@TargetApi(11)
 	public void onHCUpdate(Context ctxt, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		for (int i=0; i<appWidgetIds.length; i++) {
 			Intent svcIntent = new Intent(ctxt, ListWidgetService.class);
