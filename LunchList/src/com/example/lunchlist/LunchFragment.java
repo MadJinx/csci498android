@@ -1,10 +1,8 @@
 package com.example.lunchlist;
 
-import com.example.lunchlist.LunchFragment.OnRestaurantListener;
 import com.example.lunchlist.R;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
