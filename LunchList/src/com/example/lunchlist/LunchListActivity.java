@@ -18,7 +18,7 @@ public class LunchListActivity extends FragmentActivity implements LunchFragment
 	
 	public void onRestaurantSelected(long id) {
 		if (findViewById(R.id.details)==null) {
-			Intent i=new Intent(this, DetailForm.class);
+			Intent i = new Intent(this, DetailForm.class);
 			i.putExtra(ID_EXTRA, String.valueOf(id));
 			startActivity(i);
 		}
