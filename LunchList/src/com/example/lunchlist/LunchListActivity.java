@@ -3,6 +3,8 @@ package com.example.lunchlist;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 public class LunchListActivity extends FragmentActivity implements LunchFragment.OnRestaurantListener {
 	public final static String ID_EXTRA = "com.example.lunchlist._ID";
@@ -15,7 +17,7 @@ public class LunchListActivity extends FragmentActivity implements LunchFragment
 				(LunchFragment)getSupportFragmentManager().findFragmentById(R.id.lunch);
 		lunch.setOnRestaurantListener(this);
 	}
-	
+
 	public void onRestaurantSelected(long id) {
 		if (findViewById(R.id.details)==null) {
 			Intent i = new Intent(this, DetailForm.class);
@@ -23,7 +25,17 @@ public class LunchListActivity extends FragmentActivity implements LunchFragment
 			startActivity(i);
 		}
 		else {
-			// ummm... do something!
+			FragmentManager fragMgr = getSupportFragmentManager();
+			DetailFragment details = (DetailFragment)fragMgr.findFragmentById(R.id.details);
+			if (details==null) {
+				details = DetailFragment.newInstance(id);
+				FragmentTransaction xaction = fragMgr.beginTransaction();
+				xaction.add(R.id.details, details).setTransition(
+						FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
+			}
+			else {
+				details.loadRestaurant(String.valueOf(id));
+			}
 		}
 	}
 }
