@@ -238,4 +238,8 @@ public class DetailFragment extends Fragment {
 			}
 		}
 	}
+	
+	private boolean isTelephonyAvailable() {
+		return(getActivity().getPackageManager().hasSystemFeature("android.hardware.telephony"));
+	}
 }
