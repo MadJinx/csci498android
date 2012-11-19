@@ -28,6 +28,7 @@ public class DetailFragment extends Fragment {
 
 	EditText name = null;
 	EditText address = null;
+	EditText phone = null;
 	EditText notes = null;
 	EditText feed = null;
 	RadioGroup types = null;
@@ -54,6 +55,7 @@ public class DetailFragment extends Fragment {
 		locMgr = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
 		name = (EditText)getView().findViewById(R.id.name);
 		address = (EditText)getView().findViewById(R.id.addr);
+		phone = (EditText)getView().findViewById(R.id.phone);
 		notes = (EditText)getView().findViewById(R.id.notes);
 		types = (RadioGroup)getView().findViewById(R.id.types);
 		feed = (EditText)getView().findViewById(R.id.feed);
@@ -224,13 +226,15 @@ public class DetailFragment extends Fragment {
 				getHelper().insert(name.getText().toString(),
 						address.getText().toString(), type,
 						notes.getText().toString(),
-						feed.getText().toString());
+						feed.getText().toString(),
+						phone.getText().toString());
 			}
 			else {
 				getHelper().update(restaurantId, name.getText().toString(),
 						address.getText().toString(), type,
 						notes.getText().toString(),
-						feed.getText().toString());
+						feed.getText().toString(),
+						phone.getText().toString());
 			}
 		}
 	}
