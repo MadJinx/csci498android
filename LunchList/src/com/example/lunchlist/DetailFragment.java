@@ -145,7 +145,7 @@ public class DetailFragment extends Fragment {
 		} else if (item.getItemId()==R.id.call) {
 			String toDial="tel:" + phone.getText().toString();
 			if (toDial.length()>4) {
-				startActivity(new Intent(Intent.ACTION_CALL,
+				startActivity(new Intent(Intent.ACTION_DIAL,
 						Uri.parse(toDial)));
 			}
 		} else if (item.getItemId()==R.id.help) {
